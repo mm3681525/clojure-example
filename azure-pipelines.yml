@@ -13,6 +13,7 @@ steps:
 - script: |
     echo Hello, world!
     java -version
+    which curl
   displayName: 'Run a one-line script'
 
 - script: |
