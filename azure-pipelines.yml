@@ -23,9 +23,7 @@ steps:
     curl -s -O https://download.clojure.org/install/linux-install-1.10.2.774.sh
     chmod +x linux-install-1.10.2.774.sh
     sudo ./linux-install-1.10.2.774.sh
+    echo ""
+    echo "Running lein run"
+    lein run
   displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
