@@ -23,7 +23,6 @@ steps:
     curl -s -O https://download.clojure.org/install/linux-install-1.10.2.774.sh
     chmod +x linux-install-1.10.2.774.sh
     sudo ./linux-install-1.10.2.774.sh
-    clj -version
   displayName: 'Run a one-line script'
 
 - script: |
