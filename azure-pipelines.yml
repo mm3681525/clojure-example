@@ -11,9 +11,9 @@ pool:
 
 steps:
 - script: |
-    echo "Installing"
+    echo "Installing Leiningen..."
     java -version
-    curl https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > lein
+    curl -s https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > lein
     sudo mv lein /usr/local/bin/lein
     sudo chmod a+x /usr/local/bin/lein
     lein version
