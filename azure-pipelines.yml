@@ -1,29 +1,35 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+resources:
+- repo: self
 
-steps:
-- script: |
-    echo "Installing Leiningen..."
-    java -version
-    curl -s https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > lein
-    sudo mv lein /usr/local/bin/lein
-    sudo chmod a+x /usr/local/bin/lein
-    lein version
-    echo ""
-    echo "Installing Clojure CLI"
-    sudo apt-get install -y rlwrap
-    curl -s -O https://download.clojure.org/install/linux-install-1.10.2.774.sh
-    chmod +x linux-install-1.10.2.774.sh
-    sudo ./linux-install-1.10.2.774.sh
-    echo ""
-    echo "Running lein run"
-    lein run
-  displayName: 'Run a one-line script'
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      displayName: Build and push image
+      inputs:
+        command: buildAndPush
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(tag)
+        containerRegistry: 'DockerHUB'
+        repository: 'mm3681525/public-01'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/TEST-*.xml'
